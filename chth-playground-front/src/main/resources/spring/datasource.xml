@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- !! ForkDataSource -->
+    <!--primary:当有且有多个实例时，装配primary修饰的实例-->
+    <bean class="chth.playground.front.datasource.ForkDataSource" primary="true">
+        <property name="targetDataSources">
+            <map>
+                <entry key="default" value-ref="defaultDataSource" />
+                <entry key="spare" value-ref="spare" />
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="defaultDataSource"/>
+    </bean>
+
+
+    <beans profile="default">
+        <bean id="defaultDataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+            <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+            <property name="jdbcUrl"
+                      value="jdbc:mysql://192.168.99.114:3306/chth_playground?useSSL=false&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
+            <property name="username" value="root"/>
+            <property name="password" value="root"/>
+        </bean>
+
+        <bean id="spare" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+            <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+            <property name="jdbcUrl"
+                      value="jdbc:mysql://192.168.80.131:3306/chth_playground?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;autoReconnect=true&amp;useJDBCCompliantTimezoneShift=false&amp;useLegacyDatetimeCode=true
+"/>
+            <property name="username" value="root"/>
+            <property name="password" value="root"/>
+        </bean>
+    </beans>
+
+</beans>

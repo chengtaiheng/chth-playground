@@ -1,0 +1,76 @@
+server:
+  port: 521
+spring:
+  profiles:
+    active: default,debug
+  datasource:
+      driverclassname: "com.mysql.jdbc.Driver"
+      url: "jdbc:mysql://192.168.99.114:3306/chth_playground?useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8"
+      username: "root"
+      password: "root"
+  data:
+    mongodb:
+      uri: "mongodb://root:root@192.168.80.131:27017/prescription?authSource=admin"
+  activemq:
+    broker-url: "tcp://192.168.80.131:61616"
+    user: "admin"
+    password: "password"
+    pool:
+      enabled: false
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Carnival
+# ----------------------------------------------------------------------------------------------------------------------
+carnival:
+  password:
+    algorithm: md5
+  business-exception:
+    enabled: true
+    messages:
+      # ↓↓↓ 登录
+      "000001.01": "用户名或密码错误"
+      "000001.02": "已经超过90天没有修改密码了"
+      "000001.03": "请10分钟以后尝试短信登录"
+      "000001.04": "验证码不正确"
+      "000001.05": "用户已经被禁用"
+      "000001.06": "请10分钟后再尝试"
+
+      # ↓↓↓ activemq
+      "000002.01": "处方不存在"
+
+
+  id:
+    enabled: true
+    algorithm: snowflake_string  #类型，String
+    snowflake:
+      pad-character: "0"  # 填充字符，生成的字符串长度不够时
+      length: 32     # 长度32
+      worker-id: 0
+      data-center-id: 0
+
+  mvc:
+    enhancement:
+      enabled: true
+    cors-for-all:
+      enabled: true
+    i18n:
+      enabled: false
+    webroot:
+      enabled: false
+    xss-protecting:
+      enabled: false
+
+  jwt:
+    signature-algorithm: hmac512
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# mybatis
+# ----------------------------------------------------------------------------------------------------------------------
+mybatis:
+  check-config-location: false
+  type-aliases-package: "chth.playground.common"
+  mapper-locations:
+  - "classpath*:/mybatis-mapper/*.xml"
+
+
